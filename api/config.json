@@ -1,0 +1,17 @@
+{
+    "connectionData": {
+        "connectionLimit": 100,
+        "host": "localhost",
+        "user": "cyberx",
+        "password": "0225",
+        "database": "biblioteca",
+        "debug": false
+    },
+
+    "api": {
+        "url": "127.0.0.1",
+        "secureURL": "localhost:3000"
+    }
+
+    
+}
