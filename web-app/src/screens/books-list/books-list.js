@@ -11,13 +11,20 @@ const configFile = require('./../../config.json');
 
 function SecondScreen() {
 
+    // Armazenando o html da exibição
     let [body, setBody] = useState();
 
     useEffect(() => {
+        // Enviando a requisição para a API
         fetch('http://' + configFile.api.url + ':4545')
+
+            // Tratando os dados retornados como JSON
             .then((res) => res.json())
+
+            // Ao receber alguma resposta
             .then((livros) => {
                 if (livros) {
+                    // Setando o o html da exibição
                     setBody(
                         <Data></Data>
                     );
@@ -25,6 +32,8 @@ function SecondScreen() {
             })
             .catch((err) => {
                 if (err) {
+
+                    // Setando o o html da exibição
                     setBody(
                         <h1 className="font-bold text-gray-100 text-2xl text-center py-12">Impossível conectar ao banco de dados!</h1>
                     )

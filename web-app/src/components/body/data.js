@@ -22,7 +22,7 @@ function Data() {
 
                                     <img className="object-cover w-full" src={livro.capa} alt="capa do livro"></img>
                                     <div className="py-2 px-3">
-                                        <h1>{livro.nome}</h1>
+                                        <h1 className="w-[375px] md:w-[195px] lg:w-[245px] truncate">{livro.nome}</h1>
                                     </div>
                                 </div>
                             </a>
@@ -60,10 +60,9 @@ function Data() {
                             result.push(
                                 <a href={window.location.href + "livro?codigo=" + livro.codigo}>
                                     <div key={index} className="bg-stone-800 rounded-xl overflow-hidden text-gray-100 cursor-pointer">
-
                                         <img className="object-cover w-full" src={livro.capa} alt="capa do livro"></img>
                                         <div className="py-2 px-3">
-                                            <h1>{livro.nome}</h1>
+                                            <h1 className="w-[375px] md:w-[195px] lg:w-[245px] truncate">{livro.nome}</h1>
                                         </div>
                                     </div>
                                 </a>
