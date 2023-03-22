@@ -1,7 +1,7 @@
 
 # Sistema de biblioteca
 
-Sistema simples de uma biblioteca utilizando ```Javascript```, ```Node.JS```, ```Express JS```, ```HTML5```, ```CSS3``` e ```Tailwind CSS```, onde poderá armazenar, buscar e gerenciar livros dentro de uma interface intuitiva e simplificada:
+Sistema simples de uma biblioteca utilizando ```Javascript```, ```Node.JS```, ```Express JS```, ```REACT JS```, ```HTML5```, ```CSS3``` e ```Tailwind CSS```, onde poderá armazenar, buscar e gerenciar livros dentro de uma interface intuitiva e simplificada:
 
 
 ## Instalação
