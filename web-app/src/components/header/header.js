@@ -1,3 +1,4 @@
+// Header da aplicação
 function Header() {
   return (
     <header className="bg-stone-800">

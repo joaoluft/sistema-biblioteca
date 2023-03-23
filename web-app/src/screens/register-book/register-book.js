@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
 
 // Components
 import Header from '../../components/header/header';
@@ -12,9 +12,9 @@ function SecondScreen() {
     let [error, setError] = useState('');
 
     // Armazenando a foto para exibição no input do formulário
-    let [photo, setPhoto] = useState("");
     let imgRef = useRef();
 
+    // Função que converte a imagem para o formato BASE64 utilizando a lib 'filereader'
     const convertBase64 = (file) => {
         if (file) {
             return new Promise((resolve, reject) => {
@@ -30,9 +30,11 @@ function SecondScreen() {
         }
     }
 
+    // Função que envia o formulário de registro do livro
     const submitRegister = async (e) => {
         e.preventDefault();
 
+        // Opções da requisição
         const registerOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -48,11 +50,16 @@ function SecondScreen() {
             })
         };
 
+        // Enviando a requisição para a API para fazer o registro do livro
         fetch('http://' + configFile.api.url + ':4545/registerbook', registerOptions)
-            .then((response) => response.json())
-            .then((data) => {
-                console.log(data);
 
+            // Tratando os dados retornados como JSON
+            .then((response) => response.json())
+
+            // Ao receber alguma resposta da requisição
+            .then((data) => {
+
+                // Caso haja algum erro, irá exibi-lo na interface, caso não haja, irá voltar para a página anterior
                 switch (data.error) {
                     case null:
                         window.history.go(-1);
@@ -77,6 +84,7 @@ function SecondScreen() {
             });
     }
 
+    // Retornando interface de registro de livro
     return (
         <div className="App flex flex-col">
             <Header></Header>
@@ -178,7 +186,6 @@ function SecondScreen() {
                                             <label htmlFor="book-cover" className="w-full my-2 relative cursor-pointer rounded-md p-2 bg-white font-medium outline-none focus:ring-0">
                                                 <span className="px-2">Carregar arquivo</span>
                                                 <input onChange={e => {
-                                                    setPhoto(e.target.value);
                                                     var src = URL.createObjectURL(e.target.files[0]);
                                                     imgRef.current.src = src;
                                                 }} id="book-cover" type="file" className="sr-only" accept="image/png, image/jpeg" />
@@ -189,8 +196,7 @@ function SecondScreen() {
                                     </div>
                                 </div>
 
-
-                                <img className="w-64 overflow-hidden rounded-xl" ref={imgRef} />
+                                <img className="w-64 overflow-hidden rounded-xl" ref={imgRef} alt="Capa do livro" />
                             </div>
                         </div>
 

@@ -4,7 +4,11 @@ const configFile = require('./../../config.json');
 
 function Data() {
 
+    // Armazenando o conteúdo (HTML) da listagem dos livros
     let [items, setItems] = useState();
+
+    // Armazenando o valor da busca inserida
+    let [search, setSearch] = useState('');
 
     // Consultando API e gerando itens
     useEffect(() => {
@@ -14,11 +18,13 @@ function Data() {
                 if (livros) {
                     const result = [];
 
+                    // Listagem de cada item do objeto 'livros'
                     livros.forEach((livro, index) => {
 
+                        // Adicionando itens ao objeto 'result'
                         result.push(
-                            <a href={window.location.href + "livro?codigo=" + livro.codigo}>
-                                <div key={index} className="bg-stone-800 rounded-xl overflow-hidden text-gray-100 cursor-pointer">
+                            <a key={index} href={window.location.href + "livro?codigo=" + livro.codigo}>
+                                <div className="bg-stone-800 rounded-xl overflow-hidden text-gray-100 cursor-pointer">
 
                                     <img className="object-cover w-full" src={livro.capa} alt="capa do livro"></img>
                                     <div className="py-2 px-3">
@@ -29,37 +35,44 @@ function Data() {
                         );
                     });
 
+                    // Enviando os dados para armazenamento do conteúdo (HTML) para a exibição completa
                     setItems(
                         <div className="grid sm:grid-cols-1 md:grid-cols-3 lg:md:grid-cols-4 xl:md:grid-cols-6 gap-4 place-items-stretch">
                             {result}
                         </div>
                     );
                 }
-            })
-            .catch((err) => {
-                console.log(err);
             });
     }, []);
 
-    let [search, setSearch] = useState('');
+    // Função que executa a busca dos livros na lista
+    const submitSearch = async (e) => {
+        e.preventDefault();
 
-    const proccessSearch = async (value) => {
-        setSearch(value)
+        // Armazenando o valor da busca inserida
+        setSearch(e.target[0].value)
 
+        // Enviando a requisição para a API buscando todos livros registrados
         fetch('http://' + configFile.api.url + ':4545/getbooks')
-            .then((res) => res.json())
+
+            // Tratando os dados para o formato JSON
+            .then((response) => response.json())
+
+            // Ao receber alguma resposta
             .then((livros) => {
                 if (livros) {
 
                     const result = [];
 
+                    // Filtrar os dados utilizando os parâmetros de busca
                     let searchFiltered = livros.filter(item => item.nome.toLowerCase().includes(search.toLowerCase()) || item.tema.toLowerCase().includes(search.toLowerCase()) || item.autor.toLowerCase().includes(search.toLowerCase()) || item.codigo.toLowerCase().includes(search.toLowerCase()));
 
+                    // Se o objeto com os itens não for vazio
                     if (searchFiltered.length !== 0) {
                         searchFiltered.forEach((livro, index) => {
                             result.push(
-                                <a href={window.location.href + "livro?codigo=" + livro.codigo}>
-                                    <div key={index} className="bg-stone-800 rounded-xl overflow-hidden text-gray-100 cursor-pointer">
+                                <a key={index} href={window.location.href + "livro?codigo=" + livro.codigo}>
+                                    <div className="bg-stone-800 rounded-xl overflow-hidden text-gray-100 cursor-pointer">
                                         <img className="object-cover w-full" src={livro.capa} alt="capa do livro"></img>
                                         <div className="py-2 px-3">
                                             <h1 className="w-[375px] md:w-[195px] lg:w-[245px] truncate">{livro.nome}</h1>
@@ -69,27 +82,22 @@ function Data() {
                             );
                         });
 
+                        // Armazenando os itens filtrados para exibição na interface
                         setItems(
                             <div className="grid sm:grid-cols-1 md:grid-cols-3 lg:md:grid-cols-4 xl:md:grid-cols-6 gap-4 place-items-stretch">
                                 {result}
                             </div>
                         );
 
+                        // Caso o objeto com os itens for vazio
                     } else {
                         setItems(<h1 className="font-bold text-gray-100 text-2xl text-center py-12">Nenhum livro encontrado com sua busca ({search})!</h1>);
                     }
                 }
-            })
-            .catch((err) => {
-                console.log(err);
             });
     }
 
-    const submitSearch = (e) => {
-        e.preventDefault();
-        proccessSearch(e.target[0].value)
-    }
-
+    // Retornando a lista de livros
     return (
         <>
             <div className="block md:flex">

@@ -11,7 +11,7 @@ const configFile = require('./../../config.json');
 
 function SecondScreen() {
 
-    // Armazenando o html da exibição
+    // Armazenando o conteúdo (HTML) da exibição da lista
     let [body, setBody] = useState();
 
     useEffect(() => {
@@ -23,17 +23,22 @@ function SecondScreen() {
 
             // Ao receber alguma resposta
             .then((livros) => {
+
+                // Ao recber um sinal de funcionamento da API
                 if (livros) {
-                    // Setando o o html da exibição
+
+                    // Enviando os dados para o armazenamento do conteúdo (HTML)
                     setBody(
                         <Data></Data>
                     );
                 }
             })
+
+            // Ao receber algum erro
             .catch((err) => {
                 if (err) {
 
-                    // Setando o o html da exibição
+                    // Enviando um erro para o armazenamento do conteúdo (HTML)
                     setBody(
                         <h1 className="font-bold text-gray-100 text-2xl text-center py-12">Impossível conectar ao banco de dados!</h1>
                     )
@@ -41,6 +46,7 @@ function SecondScreen() {
             });
     }, []);
 
+    // Retornando a interface da listagem dos livros
     return (
         <div className="App flex flex-col">
             <Header></Header>
